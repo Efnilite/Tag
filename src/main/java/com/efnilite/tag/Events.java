@@ -25,8 +25,8 @@ public class Events implements Listener {
                 .split(" ")[0];
         List<String> args = Lists.newArrayList(
                 e.getMessage()
-                .replace("/", "")
-                .split(" "));
+                        .replace("/", "")
+                        .split(" "));
 
         if (command.equals("tag")) {
             e.setCancelled(true);
@@ -61,33 +61,36 @@ public class Events implements Listener {
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
-            e.setCancelled(true);
+
             Player entity = ((Player) e.getEntity()).getPlayer();
             Player damager = ((Player) e.getDamager()).getPlayer();
 
-            Manager.getPlayers().forEach(p -> p.sendMessage(Tag.getWrapperFileConfiguration()
-                    .get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.player-tagged")
-                    .replace("%it%", damager.getName())
-                    .replace("%player%", entity.getName())));
+            if (Manager.getPlayers().contains(damager) && Manager.getPlayers().contains(entity)) {
+                e.setCancelled(true);
+                if (Manager.getTagged() == damager) {
+                    Manager.getPlayers().forEach(p -> p.sendMessage(Tag.getWrapperFileConfiguration()
+                            .get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.player-tagged")
+                            .replace("%it%", damager.getName())
+                            .replace("%player%", entity.getName())));
 
-            PacketUtils.setGlowing(damager, null, Manager.getPlayers());
-            PacketUtils.setGlowing(entity, GlowAPI.Color.RED, Manager.getPlayers());
+                    PacketUtils.setGlowing(damager, null, Manager.getPlayers());
+                    PacketUtils.setGlowing(entity, GlowAPI.Color.RED, Manager.getPlayers());
 
-            if (Manager.getPlayers().contains(damager) && Manager.getPlayers().contains(entity) && Manager.getTagged() == damager) {
-                Manager.setTagged(entity);
-                entity.sendMessage(Tag.getWrapperFileConfiguration().
-                        get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.been-tagged"));
-                damager.sendMessage(Tag.getWrapperFileConfiguration()
-                        .get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.you-tagged")
-                        .replace("%player%", entity.getName()));
+                    Manager.setTagged(entity);
 
-                entity.sendMessage(Tag.getWrapperFileConfiguration()
-                        .get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.you-it"));
-                PacketUtils.setGlowing(entity, GlowAPI.Color.RED, entity);
-                PacketUtils.setWarning(entity, false);
-                PacketUtils.sendActionBar(entity);
+                    entity.sendMessage(Tag.getWrapperFileConfiguration().
+                            get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.been-tagged"));
+                    damager.sendMessage(Tag.getWrapperFileConfiguration()
+                            .get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.you-tagged")
+                            .replace("%player%", entity.getName()));
+
+                    entity.sendMessage(Tag.getWrapperFileConfiguration()
+                            .get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.you-it"));
+                    PacketUtils.setGlowing(entity, GlowAPI.Color.RED, entity);
+                    PacketUtils.setWarning(entity, false);
+                    PacketUtils.sendActionBar(entity);
+                }
             }
         }
     }
-
 }
