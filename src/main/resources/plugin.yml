@@ -2,5 +2,4 @@ name: Tag
 author: Efnilite
 version: 1.0
 main: com.efnilite.tag.Tag
-api-version: 1.13
 website: https://github.com/Efnilite/Tag
