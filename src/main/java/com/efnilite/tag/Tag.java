@@ -2,6 +2,7 @@ package com.efnilite.tag;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import com.efnilite.tag.utils.UpdateChecker;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,6 +19,8 @@ public class Tag extends JavaPlugin {
         instance = this;
         protocolManager = ProtocolLibrary.getProtocolManager();
         wrapperFileConfiguration = new WrapperFileConfiguration(this);
+
+        new UpdateChecker().check();
 
         Manager.getPlayers().clear();
 

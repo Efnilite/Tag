@@ -1,6 +1,6 @@
 package com.efnilite.tag;
 
-import com.efnilite.tag.utils.Utils;
+import com.efnilite.tag.utils.PacketUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -44,8 +44,8 @@ public class Events implements Listener {
 
             Manager.getPlayers().forEach(p -> p.sendMessage(Tag.getWrapperFileConfiguration().get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.player-tagged").replace("%it%", damager.getName()).replace("%player%", entity.getName())));
 
-            GlowAPI.setGlowing(damager, null, Manager.getPlayers());
-            GlowAPI.setGlowing(entity, GlowAPI.Color.RED, Manager.getPlayers());
+            PacketUtils.setGlowing(damager, null, Manager.getPlayers());
+            PacketUtils.setGlowing(entity, GlowAPI.Color.RED, Manager.getPlayers());
 
             if (Manager.getPlayers().contains(damager) && Manager.getPlayers().contains(entity) && Manager.getTagged() == damager) {
                 Manager.setTagged(entity);
@@ -53,9 +53,9 @@ public class Events implements Listener {
                 damager.sendMessage(Tag.getWrapperFileConfiguration().get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.you-tagged").replace("%player%", entity.getName()));
 
                 entity.sendMessage(Tag.getWrapperFileConfiguration().get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.you-it"));
-                GlowAPI.setGlowing(entity, GlowAPI.Color.RED, entity);
-                Utils.setWarning(entity, false);
-                Utils.sendActionBar(entity);
+                PacketUtils.setGlowing(entity, GlowAPI.Color.RED, entity);
+                PacketUtils.setWarning(entity, false);
+                PacketUtils.sendActionBar(entity);
             }
         }
     }
