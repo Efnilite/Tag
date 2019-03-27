@@ -10,13 +10,13 @@ public class WrapperFileConfiguration {
     private FileConfiguration messages;
 
     public WrapperFileConfiguration(Tag instance) {
+        instance.getDataFolder().mkdir();
+
         config = instance.getConfig();
         messages = YamlConfiguration.loadConfiguration(instance.getReader("messages.yml"));
 
-        config.options().copyDefaults(true)
-                .copyHeader(true);
-        messages.options().copyDefaults(true)
-                .copyHeader(true);
+        instance.saveResource("config.yml", false);
+        instance.saveResource("messages.yml", false);
     }
 
     public String get(Configuration type, String path) {
