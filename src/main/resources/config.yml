@@ -1,0 +1,46 @@
+#==============================================================================#
+#           _____                    _____                    _____            #
+#         /\    \                  /\    \                  /\    \            #
+#        /::\    \                /::\    \                /::\    \           #
+#        \:::\    \              /::::\    \              /::::\    \          #
+#         \:::\    \            /::::::\    \            /::::::\    \         #
+#          \:::\    \          /:::/\:::\    \          /:::/\:::\    \        #
+#           \:::\    \        /:::/__\:::\    \        /:::/  \:::\    \       #
+#           /::::\    \      /::::\   \:::\    \      /:::/    \:::\    \      #
+#          /::::::\    \    /::::::\   \:::\    \    /:::/    / \:::\    \     #
+#         /:::/\:::\    \  /:::/\:::\   \:::\    \  /:::/    /   \:::\ ___\    #
+#        /:::/  \:::\____\/:::/  \:::\   \:::\____\/:::/____/  ___\:::|    |   #
+#       /:::/    \::/    /\::/    \:::\  /:::/    /\:::\    \ /\  /:::|____|   #
+#      /:::/    / \/____/  \/____/ \:::\/:::/    /  \:::\    /::\ \::/    /    #
+#     /:::/    /                    \::::::/    /    \:::\   \:::\ \/____/     #
+#    /:::/    /                      \::::/    /      \:::\   \:::\____\       #
+#    \::/    /                       /:::/    /        \:::\  /:::/    /       #
+#     \/____/                       /:::/    /          \:::\/:::/    /        #
+#                                  /:::/    /            \::::::/    /         #
+#                                 /:::/    /              \::::/    /          #
+#                                 \::/    /                \::/____/           #
+#                                  \/____/                                     #
+#                                                                              #
+#==============================================================================#
+
+# Debug mode
+# This is mainly used for development, but if you want to see the inner workings go ahead.
+debug: false
+
+# Glowing
+# Enable glowing of the person being tagged. (Maybe for < 1.9 versions?)
+# If you disable this, you won't have to add GlowAPI and PacketListenerAPI to the dependency list.
+glowing: true
+
+# Red tint
+# Enable the red tint when you are the person that is tagged.
+tint: true
+
+# Gamemode
+# The gamemode the player will be in if the player enters or leaves Tag.
+# Options: ADVENTURE, SURVIVAL, CREATIVE or SPECTATOR
+gamemode:
+
+  join: ADVENTURE
+
+  leave: SURVIVAL
