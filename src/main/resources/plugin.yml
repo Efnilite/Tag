@@ -1,4 +1,5 @@
 name: Tag
+description: Tag, the game you played as a kiddo, in Minecraft!
 author: Efnilite
 version: 1.0
 main: com.efnilite.tag.Tag

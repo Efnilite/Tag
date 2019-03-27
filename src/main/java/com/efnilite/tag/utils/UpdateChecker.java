@@ -15,10 +15,12 @@ public class UpdateChecker {
 		if (!Tag.getInstance().getDescription().getVersion().equals(getLatestVersion())) {
 			Tag.getInstance().getLogger().info("A new version of Tag is available to download!");
 			Tag.getInstance().getLogger().info("Download link: https://github.com/Efnilite/Tag/releases/");
+		} else {
+			Tag.getInstance().getLogger().info("Tag is currently up-to-date!");
 		}
 	}
 
-	private String getLatestVersion() {
+	public String getLatestVersion() {
 		InputStream stream;
 		try {
 			stream = new URL("https://raw.githubusercontent.com/Efnilite/Tag/master/src/main/resources/plugin.yml").openStream();
