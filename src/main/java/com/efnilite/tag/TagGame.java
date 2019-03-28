@@ -10,12 +10,17 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class Manager {
+public class TagGame {
 
-    private static List<Player> players = new ArrayList<>();
-    private static Player tagged;
+    private Player tagged;
+    private List<Player> players = new ArrayList<>();
 
-    public static void addPlayer(Player player) {
+    public TagGame(Player tagged) {
+        this.tagged = tagged;
+        this.players.add(tagged);
+    }
+
+    public void add(Player player) {
         players.add(player);
 
         player.sendMessage(Tag.getWrapperFileConfiguration().get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.you-joined"));
@@ -26,17 +31,11 @@ public class Manager {
         for (Player player1 :  new ArrayList<>(players).stream().filter(p ->  !players.contains(p)).collect(Collectors.toCollection(ArrayList::new))) {
             player.hidePlayer(Tag.getInstance(), player1);
         }
-        if (players.size() == 1) {
-            tagged = player;
-            PacketUtils.setWarning(player, true);
-            player.sendMessage(Tag.getWrapperFileConfiguration().get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.you-it"));
 
-            PacketUtils.setGlowing(player, GlowAPI.Color.RED, players);
-            PacketUtils.sendActionBar(player);
-        }
+        selectTagged();
     }
 
-    public static void removePlayer(Player player) {
+    public void remove(Player player) {
         players.remove(player);
 
         player.sendMessage(Tag.getWrapperFileConfiguration().get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.you-left"));
@@ -50,28 +49,38 @@ public class Manager {
         }
 
         if (player == tagged) {
-            if (players.size() != 0) {
-                Player random = players.get(new Random().nextInt(players.size()));
-                random.sendMessage(Tag.getWrapperFileConfiguration().get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.you-it"));
+            PacketUtils.setWarning(player, true);
 
-                PacketUtils.setGlowing(random, GlowAPI.Color.RED, players);
-                PacketUtils.setWarning(player, true);
-                tagged = random;
-            } else {
-                tagged = null;
-            }
+            selectTagged();
         }
     }
 
-    public static List<Player> getPlayers() {
-        return players;
+    public void selectTagged() {
+        if (players.size() == 1) {
+            tagged = players.get(0);
+            PacketUtils.setWarning(tagged, true);
+            tagged.sendMessage(Tag.getWrapperFileConfiguration().get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.you-it"));
+
+            PacketUtils.setGlowing(tagged, GlowAPI.Color.RED, players);
+            PacketUtils.sendActionBar(tagged);
+        } else if (players.size() != 0) {
+            Player random = players.get(new Random().nextInt(players.size()));
+            random.sendMessage(Tag.getWrapperFileConfiguration().get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.you-it"));
+
+            PacketUtils.setGlowing(random, GlowAPI.Color.RED, players);
+            tagged = random;
+        }
     }
 
-    public static Player getTagged() {
+    public void setTagged(Player tagged) {
+        this.tagged = tagged;
+    }
+
+    public Player getTagged() {
         return tagged;
     }
 
-    public static void setTagged(Player tagged) {
-        Manager.tagged = tagged;
+    public List<Player> getPlayers() {
+        return players;
     }
 }

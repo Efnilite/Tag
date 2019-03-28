@@ -3,7 +3,6 @@ package com.efnilite.tag.utils;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
-import com.efnilite.tag.Manager;
 import com.efnilite.tag.Tag;
 import com.efnilite.tag.WrapperFileConfiguration;
 import net.md_5.bungee.api.ChatMessageType;
@@ -21,7 +20,7 @@ public class PacketUtils {
     public static void sendActionBar(Player player) {
         new BukkitRunnable() {
             public void run() {
-                if (Manager.getTagged() == player) {
+                if (Tag.getGame().getTagged() == player) {
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Tag.getWrapperFileConfiguration().get(WrapperFileConfiguration.Configuration.MESSAGES, "action-bars.you-it")));
                 } else {
                     cancel();

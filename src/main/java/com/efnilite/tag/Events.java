@@ -9,7 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.map.MapView;
 import org.inventivetalent.glow.GlowAPI;
 
 import java.util.List;
@@ -40,10 +39,10 @@ public class Events implements Listener {
                     }
                 }
             } else {
-                if (Manager.getPlayers().contains(e.getPlayer())) {
-                    Manager.removePlayer(e.getPlayer());
+                if (Tag.getGame().getPlayers().contains(e.getPlayer())) {
+                    Tag.getGame().remove(e.getPlayer());
                 } else {
-                    Manager.addPlayer(e.getPlayer());
+                    Tag.getGame().add(e.getPlayer());
                 }
             }
         }
@@ -53,8 +52,8 @@ public class Events implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
-        if (Manager.getPlayers().contains(e.getPlayer())) {
-            Manager.removePlayer(e.getPlayer());
+        if (Tag.getGame().getPlayers().contains(e.getPlayer())) {
+            Tag.getGame().remove(e.getPlayer());
         }
     }
 
@@ -65,18 +64,18 @@ public class Events implements Listener {
             Player entity = ((Player) e.getEntity()).getPlayer();
             Player damager = ((Player) e.getDamager()).getPlayer();
 
-            if (Manager.getPlayers().contains(damager) && Manager.getPlayers().contains(entity)) {
+            if (Tag.getGame().getPlayers().contains(damager) && Tag.getGame().getPlayers().contains(entity)) {
                 e.setCancelled(true);
-                if (Manager.getTagged() == damager) {
-                    Manager.getPlayers().forEach(p -> p.sendMessage(Tag.getWrapperFileConfiguration()
+                if (Tag.getGame().getTagged() == damager) {
+                    Tag.getGame().getPlayers().forEach(p -> p.sendMessage(Tag.getWrapperFileConfiguration()
                             .get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.player-tagged")
                             .replace("%it%", damager.getName())
                             .replace("%player%", entity.getName())));
 
-                    PacketUtils.setGlowing(damager, null, Manager.getPlayers());
-                    PacketUtils.setGlowing(entity, GlowAPI.Color.RED, Manager.getPlayers());
+                    PacketUtils.setGlowing(damager, null, Tag.getGame().getPlayers());
+                    PacketUtils.setGlowing(entity, GlowAPI.Color.RED, Tag.getGame().getPlayers());
 
-                    Manager.setTagged(entity);
+                    Tag.getGame().setTagged(entity);
 
                     entity.sendMessage(Tag.getWrapperFileConfiguration().
                             get(WrapperFileConfiguration.Configuration.MESSAGES, "messages.been-tagged"));
